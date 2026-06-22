@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment Confirmed - CA$ 1,200.00</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #06b6d4);
+      overflow-x: hidden;
+      padding: 40px 0;
+    }
+
+    /* ── Background Circles ── */
+    .bg-circle {
+      position: fixed; border-radius: 50%;
+      opacity: 0.07; z-index: 1;
+      animation: floatBg 8s ease-in-out infinite;
+    }
+    .bg-circle:nth-child(1){ width:320px;height:320px;background:#fff;top:-90px;left:-90px; }
+    .bg-circle:nth-child(2){ width:220px;height:220px;background:#fff;bottom:-70px;right:-70px;animation-delay:2s; }
+    .bg-circle:nth-child(3){ width:160px;height:160px;background:#ff0000;top:50%;left:-40px;opacity:0.05;animation-delay:4s; }
+    @keyframes floatBg {
+      0%,100%{ transform:translateY(0) scale(1); }
+      50%    { transform:translateY(-18px) scale(1.04); }
+    }
+
+    /* ── Canada Flag Animated ── */
+    .canada-flag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      margin: 0 auto 22px;
+      width: 110px;
+      height: 60px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: flagFloat 3s ease-in-out infinite;
+      position: relative;
+    }
+    @keyframes flagFloat {
+      0%,100%{ transform:translateY(0) rotate(-1deg); }
+      50%    { transform:translateY(-6px) rotate(1deg); }
+    }
+    .flag-left  { width:25%; height:100%; background:#FF0000; }
+    .flag-right { width:25%; height:100%; background:#FF0000; }
+    .flag-mid   {
+      width:50%; height:100%; background:#fff;
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+    }
+    /* Maple Leaf SVG */
+    .maple {
+      width: 30px; height: 30px;
+      fill: #FF0000;
+      animation: leafPulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 4px rgba(255,0,0,0.5));
+    }
+    @keyframes leafPulse {
+      0%,100%{ transform:scale(1); }
+      50%    { transform:scale(1.15); }
+    }
+
+    /* Canada Text */
+    .canada-text {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 4px;
+      animation: fadeIn 1s ease;
+    }
+
+    /* ── Main Card ── */
+    .card {
+      width: 90%; max-width: 490px;
+      background: rgba(255,255,255,0.09);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 30px;
+      padding: 38px 26px 30px;
+      text-align: center; color: #fff;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.4);
+      position: relative; z-index: 10;
+      animation: slideUp 0.9s ease;
+      overflow: hidden;
+    }
+    @keyframes slideUp {
+      from{ opacity:0; transform:translateY(35px); }
+      to  { opacity:1; transform:translateY(0); }
+    }
+
+    /* Card shine */
+    .card::before {
+      content:""; position:absolute;
+      top:0; left:-80%;
+      width:55%; height:100%;
+      background:linear-gradient(120deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.07) 50%,
+        rgba(255,255,255,0) 100%);
+      animation: shine 5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes shine {
+      0%  { left:-80%; }
+      50% { left:130%; }
+      100%{ left:130%; }
+    }
+
+    /* ── Tick Circle ── */
+    .tick-wrap { display:flex; justify-content:center; margin-bottom:18px; }
+    .tick-circle {
+      width:100px; height:100px; border-radius:50%;
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      animation: glowPulse 2.2s ease-in-out infinite;
+    }
+    .tick-circle::before {
+      content:""; position:absolute; inset:-7px; border-radius:50%;
+      border:2px solid rgba(34,197,94,0.45);
+      animation:ringOut 2.2s linear infinite;
+    }
+    .tick-circle::after {
+      content:""; position:absolute; inset:-16px; border-radius:50%;
+      border:2px solid rgba(34,197,94,0.2);
+      animation:ringOut 2.2s linear infinite;
+      animation-delay:0.6s;
+    }
+    @keyframes glowPulse {
+      0%,100%{ box-shadow:0 0 22px rgba(34,197,94,0.4); }
+      50%    { box-shadow:0 0 55px rgba(34,197,94,0.85); }
+    }
+    @keyframes ringOut {
+      0%  { transform:scale(1); opacity:0.8; }
+      100%{ transform:scale(1.7); opacity:0; }
+    }
+    .tick-icon {
+      font-size:50px;
+      animation:popIn 0.7s 0.4s ease both;
+    }
+    @keyframes popIn {
+      from{ transform:scale(0) rotate(-30deg); opacity:0; }
+      to  { transform:scale(1) rotate(0deg);   opacity:1; }
+    }
+
+    h1 { font-size:26px; font-weight:700; margin-bottom:6px; }
+    .subtitle { font-size:16px; opacity:0.88; margin-bottom:4px; }
+
+    /* ── Divider ── */
+    .divider {
+      height:1px;
+      background:rgba(255,255,255,0.15);
+      margin:20px 0;
+    }
+
+    /* ── Section Label ── */
+    .sec-label {
+      text-align:left; font-size:11px;
+      text-transform:uppercase; letter-spacing:1.5px;
+      opacity:0.55; margin:18px 0 10px 6px;
+    }
+
+    /* ── Info Box ── */
+    .info-box {
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.11);
+      border-radius:18px; padding:4px 18px;
+      margin-bottom:14px;
+    }
+    .row {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 0;
+      border-bottom:1px solid rgba(255,255,255,0.06);
+    }
+    .row:last-child{ border-bottom:none; }
+    .lbl { font-size:13px; opacity:0.68; text-align:left; }
+    .val { font-size:13.5px; font-weight:600; text-align:right; color:#e0f2fe; }
+
+    /* ── MasterCard Logo ── */
+    .mc-logo {
+      display:inline-flex; align-items:center;
+      gap:6px; vertical-align:middle;
+    }
+    .mc-circles {
+      display:flex; align-items:center;
+      position:relative; width:38px; height:24px;
+    }
+    .mc-red {
+      width:22px; height:22px; border-radius:50%;
+      background:#EB001B;
+      position:absolute; left:0;
+    }
+    .mc-orange {
+      width:22px; height:22px; border-radius:50%;
+      background:#F79E1B;
+      position:absolute; left:14px;
+      mix-blend-mode:normal;
+    }
+    .mc-overlap {
+      width:10px; height:22px;
+      background:#FF5F00;
+      position:absolute; left:14px;
+      clip-path:ellipse(10px 11px at 0% 50%);
+    }
+    .mc-text {
+      font-size:13px; font-weight:700;
+      color:#fff; letter-spacing:0.3px;
+    }
+
+    /* ── Badges ── */
+    .badge-green {
+      display:inline-flex; align-items:center; gap:5px;
+      background:rgba(34,197,94,0.18);
+      border:1px solid rgba(34,197,94,0.5);
+      color:#86efac; padding:4px 11px;
+      border-radius:999px; font-size:12px; font-weight:700;
+    }
+    .dot {
+      width:7px; height:7px; background:#22c55e;
+      border-radius:50%;
+      animation:blink 1.2s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100%{ opacity:1; box-shadow:0 0 5px #22c55e; }
+      50%    { opacity:0.2; box-shadow:none; }
+    }
+
+    /* ── Amount Row ── */
+    .amount-val {
+      color:#facc15; font-size:19px; font-weight:800;
+      text-shadow:0 0 12px rgba(250,204,21,0.5);
+    }
+
+    /* ── Total Box ── */
+    .total-box {
+      background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(6,182,212,0.15));
+      border:1px solid rgba(34,197,94,0.35);
+      border-radius:16px; padding:16px 20px;
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:16px;
+      animation:fadeIn 1s 1.3s ease both;
+    }
+    .total-label { font-size:15px; font-weight:600; opacity:0.85; }
+    .total-val   { font-size:22px; font-weight:800; color:#facc15;
+      text-shadow:0 0 14px rgba(250,204,21,0.6); }
+
+    /* ── Success Bar ── */
+    .success-bar {
+      padding:13px; border-radius:14px;
+      background:linear-gradient(90deg,rgba(34,197,94,0.2),rgba(6,182,212,0.2));
+      border:1px solid rgba(34,197,94,0.3);
+      font-size:14px; color:#bbf7d0;
+      animation:fadeIn 1s 1.5s ease both;
+    }
+
+    @keyframes fadeIn {
+      from{ opacity:0; transform:translateY(8px); }
+      to  { opacity:1; transform:translateY(0); }
+    }
+
+    /* ── Confetti ── */
+    .confetti { position:fixed; top:0;left:0;width:100%;height:100%;
+      pointer-events:none; z-index:5; overflow:hidden; }
+    .particle { position:absolute; opacity:0;
+      animation:fall linear infinite; }
+    @keyframes fall {
+      0%  { opacity:1; transform:translateY(-10px) rotate(0deg); }
+      100%{ opacity:0; transform:translateY(100vh) rotate(720deg); }
+    }
+
+    /* ── Floating Maple Leaves ── */
+    .leaf-particle {
+      position:fixed; font-size:18px;
+      opacity:0; pointer-events:none; z-index:4;
+      animation:leafFall linear infinite;
+    }
+    @keyframes leafFall {
+      0%  { opacity:0.8; transform:translateY(-20px) rotate(0deg); }
+      100%{ opacity:0;   transform:translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+  <div class="bg-circle"></div>
+
+  <!-- Confetti -->
+  <div class="confetti" id="confetti"></div>
+
+  <!-- Floating Maple Leaves -->
+  <div id="leaves"></div>
+
+  <!-- ═══════════════ CARD ═══════════════ -->
+  <div class="card">
+
+    <!-- Canada Flag -->
+    <p class="canada-text">🇨🇦 Canada</p>
+    <div class="canada-flag">
+      <div class="flag-left"></div>
+      <div class="flag-mid">
+        <!-- Maple Leaf SVG -->
+        <svg class="maple" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 2
+            l4 12 4-2-6 10 8-1-3 5 10-4-4 6 6 1
+            -10 8 2 4-11-3 1 10H35v8H29v-8l1-10
+            -11 3 2-4-10-8 6-1-4-6 10 4-3-5 8 1
+            -6-10 4 2z"/>
+        </svg>
+      </div>
+      <div class="flag-right"></div>
+    </div>
+
+    <!-- Tick -->
+    <div class="tick-wrap">
+      <div class="tick-circle">
+        <div class="tick-icon">✅</div>
+      </div>
+    </div>
+
+    <h1>Payment Confirmed!</h1>
+    <p class="subtitle">This payment is confirm Pay</p>
+
+    <div class="divider"></div>
+
+    <!-- ── Applicant Details ── -->
+    <p class="sec-label">👤 Applicant Details</p>
+    <div class="info-box">
+      <div class="row">
+        <span class="lbl">Name</span>
+        <span class="val">MUHAMMAD IRFAN</span>
+      </div>
+      <div class="row">
+        <span class="lbl">Date of Birth</span>
+        <span class="val">03-01-1989</span>
+      </div>
+      <div class="row">
+        <span class="lbl">Passport No</span>
+        <span class="val">MY1983041</span>
+      </div>
+      <div class="row">
+        <span class="lbl">Nationality</span>
+        <span class="val">🇵🇰 Pakistani</span>
+      </div>
+    </div>
+
+    <!-- ── Payment Information ── -->
+    <p class="sec-label">💳 Payment Information</p>
+    <div class="info-box">
+
+      <div class="row">
+        <span class="lbl">Payment Method</span>
+        <span class="val">
+          <span class="mc-logo">
+            <!-- MasterCard Logo -->
+            <span class="mc-circles">
+              <span class="mc-red"></span>
+              <span class="mc-orange"></span>
+            </span>
+            <span class="mc-text">MasterCard</span>
+          </span>
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Last 4 Digits</span>
+        <span class="val">•••• 6371</span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Name on Card</span>
+        <span class="val">endurance david Inegbedion</span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Status</span>
+        <span class="badge-green">
+          <span class="dot"></span> Confirmed
+        </span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Amount Paid</span>
+        <span class="amount-val">CA$ 1,200.00</span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Date</span>
+        <span class="val">05 May 2025</span>
+      </div>
+
+      <div class="row">
+        <span class="lbl">Time</span>
+        <span class="val">01:53:46 am</span>
+      </div>
+
+    </div>
+
+    <!-- ── Total Paid ── -->
+    <div class="total-box">
+      <span class="total-label">💰 Total Paid</span>
+      <span class="total-val">CA$ 1,200.00</span>
+    </div>
+
+    <!-- ── Success Bar ── -->
+    <div class="success-bar">
+      🎉 Transaction Successfully Completed
+    </div>
+
+  </div><!-- end card -->
+
+  <!-- ═══════════════ SCRIPTS ═══════════════ -->
+  <script>
+    // Confetti
+    const colors = ['#22c55e','#06b6d4','#facc15','#ec4899','#a855f7','#ffffff','#FF0000'];
+    const cc = document.getElementById('confetti');
+    for(let i=0;i<80;i++){
+      const p=document.createElement('div');
+      p.className='particle';
+      const s=Math.random()*10+5;
+      p.style.cssText=`
+        left:${Math.random()*100}vw;
+        width:${s}px; height:${s}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        border-radius:${Math.random()>0.5?'50%':'3px'};
+        animation-duration:${Math.random()*4+3}s;
+        animation-delay:${Math.random()*3}s;
+      `;
+      cc.appendChild(p);
+    }
+
+    // Floating Maple Leaves
+    const lc = document.getElementById('leaves');
+    for(let i=0;i<20;i++){
+      const l=document.createElement('div');
+      l.className='leaf-particle';
+      l.textContent='🍁';
+      l.style.cssText=`
+        left:${Math.random()*100}vw;
+        font-size:${Math.random()*16+12}px;
+        animation-duration:${Math.random()*5+4}s;
+        animation-delay:${Math.random()*5}s;
+      `;
+      lc.appendChild(l);
+    }
+  </script>
+
+</body>
+</html>
